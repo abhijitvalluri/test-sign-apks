@@ -1,0 +1,27 @@
+name: Signing
+on:
+  push:
+    branches:
+      - master
+jobs:
+  run-build:
+    runs-on: ubuntu-latest
+    if: "! contains(toJSON(github.event.pull_request.title), '[skip ci]')"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Test sign apk files
+        uses: abhijitvalluri/sign-apks@v0.2
+        with:
+          releaseDirectory: build/
+          signingKeyBase64: ${{ secrets.DEBUG_SIGNING_KEY }}
+          alias: ${{ secrets.DEBUG_ALIAS }}
+          keyStorePassword: ${{ secrets.DEBUG_KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.DEBUG_KEY_PASSWORD }}
+      - name: Test archive everything
+        uses: actions/upload-artifact@v2
+        with:
+          name: everything
+          path: build/
