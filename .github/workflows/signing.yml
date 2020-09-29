@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Test sign apk files
-        uses: abhijitvalluri/sign-apks@v0.5
+        uses: abhijitvalluri/sign-apks@v0.6
         with:
           releaseDirectory: build/
           signingKeyBase64: ${{ secrets.DEBUG_SIGNING_KEY }}
